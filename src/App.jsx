@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import MasterAdminDashboard from './pages/MasterAdmin/Dashboard';
 import AdminDashboard from './pages/Admin/Dashboard';
 import EmployeeDashboard from './pages/Employee/Dashboard';
@@ -43,6 +45,9 @@ function App() {
           />
           
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           
           <Route
             path="/master-admin/*"

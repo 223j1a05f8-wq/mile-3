@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from '../services/api';
 import { setAuthToken, setUser, getDashboardRoute } from '../utils/helpers';
 import { toast } from 'react-toastify';
@@ -77,6 +77,10 @@ const Login = () => {
               required
               placeholder="Enter your password"
             />
+          </div>
+
+          <div className="forgot-password-link">
+            <Link to="/forgot-password">Forgot Password?</Link>
           </div>
 
           <button type="submit" className="login-btn" disabled={loading}>
