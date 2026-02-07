@@ -210,10 +210,20 @@ public class ProductService {
     }
     
     private String generateSku(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            throw new IllegalArgumentException("Category cannot be empty");
+        }
+        
         String prefix = category.substring(0, Math.min(3, category.length())).toUpperCase();
         String lastSku = productRepository.findLastSku(prefix).orElse(prefix + "000");
-        int number = Integer.parseInt(lastSku.substring(prefix.length())) + 1;
-        return String.format("%s%03d", prefix, number);
+        
+        try {
+            int number = Integer.parseInt(lastSku.substring(prefix.length())) + 1;
+            return String.format("%s%03d", prefix, number);
+        } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+            // If SKU format is corrupted, start fresh
+            return String.format("%s001", prefix);
+        }
     }
     
     private ProductDTO.ProductResponse toProductResponse(Product product) {

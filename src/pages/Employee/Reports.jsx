@@ -105,7 +105,7 @@ const Reports = () => {
   const stockData = [
     { name: 'Total Products', value: summary?.totalProducts || 0 },
     { name: 'Low Stock Items', value: summary?.lowStockItems || 0 },
-    { name: 'Normal Stock', value: (summary?.totalProducts || 0) - (summary?.lowStockItems || 0) }
+    { name: 'Normal Stock', value: Math.max(0, (summary?.totalProducts || 0) - (summary?.lowStockItems || 0)) }
   ];
 
   return (
