@@ -1,0 +1,2 @@
+/* Shared dashboard styles for Admin and Employee - uses same CSS as MasterAdmin */
+@import '../MasterAdmin/Dashboard.css';
