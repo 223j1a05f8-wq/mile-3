@@ -91,6 +91,10 @@ const ResetPassword = () => {
 
     try {
       const response = await authAPI.resetPassword(token, formData.newPassword);
+      
+      // Clear sensitive data from memory
+      setFormData({ newPassword: '', confirmPassword: '' });
+      
       setSuccess(true);
       toast.success(response.data.message || 'Password has been reset successfully');
       

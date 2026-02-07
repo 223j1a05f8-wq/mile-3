@@ -15,7 +15,9 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prevent multiple rapid submissions (rate limiting)
+    // Prevent multiple rapid submissions (frontend rate limiting)
+    // Note: This is a basic client-side protection and can be bypassed.
+    // Backend should implement proper rate limiting for security.
     const now = Date.now();
     if (now - lastSubmitTime < 3000) {
       toast.warning('Please wait a moment before trying again');

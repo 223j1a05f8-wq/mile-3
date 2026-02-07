@@ -12,6 +12,8 @@ export const validatePassword = (password) => {
   const hasNumber = /\d/.test(password);
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
   
+  // Password is valid if it has minimum length, uppercase, lowercase, and number
+  // Special characters are optional but tracked for strength indicator
   const isValid = 
     password.length >= minLength &&
     hasUpperCase &&
@@ -25,7 +27,6 @@ export const validatePassword = (password) => {
       hasUpperCase: !hasUpperCase,
       hasLowerCase: !hasLowerCase,
       hasNumber: !hasNumber,
-      hasSpecialChar: !hasSpecialChar
     }
   };
 };
