@@ -313,16 +313,21 @@ public class ProductService {
     }
     
     private String generateSku(String category) {
+        if (category == null || category.trim().isEmpty()) {
+            throw new IllegalArgumentException("Category cannot be empty");
+        }
+        
         String prefix = category.toUpperCase().substring(0, Math.min(3, category.length()));
         
         String lastSku = productRepository.findLastSku(prefix).orElse(null);
         
         int nextNumber = 1;
-        if (lastSku != null && lastSku.length() > prefix.length()) {
+        if (lastSku != null && lastSku.contains("-") && lastSku.length() > prefix.length() + 1) {
             try {
-                String numberPart = lastSku.substring(prefix.length() + 1);
+                int hyphenIndex = lastSku.indexOf('-');
+                String numberPart = lastSku.substring(hyphenIndex + 1);
                 nextNumber = Integer.parseInt(numberPart) + 1;
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 nextNumber = 1;
             }
         }

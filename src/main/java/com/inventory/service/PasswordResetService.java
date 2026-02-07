@@ -51,11 +51,11 @@ public class PasswordResetService {
     @Transactional
     public void resetPassword(String token, String newPassword) {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-            .orElseThrow(() -> new ResourceNotFoundException("Invalid or expired reset token"));
+            .orElseThrow(() -> new ResourceNotFoundException("Reset token not found"));
         
         if (resetToken.isExpired()) {
             passwordResetTokenRepository.delete(resetToken);
-            throw new ResourceNotFoundException("Reset token has expired");
+            throw new IllegalStateException("Reset token has expired");
         }
         
         User user = resetToken.getUser();
