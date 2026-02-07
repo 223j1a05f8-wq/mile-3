@@ -153,16 +153,16 @@ const Transactions = () => {
                 transactions.map((transaction) => (
                   <tr key={transaction.id}>
                     <td>{formatDate(transaction.transactionDate)}</td>
-                    <td>{transaction.product?.sku}</td>
-                    <td>{transaction.product?.productName}</td>
+                    <td>{transaction.sku}</td>
+                    <td>{transaction.productName}</td>
                     <td>
                       <span className={`type-badge ${transaction.transactionType.toLowerCase().replace('_', '-')}`}>
                         {transaction.transactionType.replace('_', ' ')}
                       </span>
                     </td>
                     <td>{transaction.quantity}</td>
-                    <td>{transaction.quantityBefore}</td>
-                    <td>{transaction.quantityAfter}</td>
+                    <td>{transaction.previousQuantity}</td>
+                    <td>{transaction.newQuantity}</td>
                     <td>{transaction.notes || '-'}</td>
                   </tr>
                 ))

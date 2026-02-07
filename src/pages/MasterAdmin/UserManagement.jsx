@@ -11,6 +11,7 @@ const UserManagement = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('ALL');
+  const [showDeleted, setShowDeleted] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -24,7 +25,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     filterUsers();
-  }, [users, searchTerm, filterRole]);
+  }, [users, searchTerm, filterRole, showDeleted]);
 
   const fetchUsers = async () => {
     try {
@@ -39,6 +40,13 @@ const UserManagement = () => {
 
   const filterUsers = () => {
     let filtered = users;
+
+    // Filter by deleted status
+    if (showDeleted) {
+      filtered = filtered.filter(user => user.isDeleted);
+    } else {
+      filtered = filtered.filter(user => !user.isDeleted);
+    }
 
     if (filterRole !== 'ALL') {
       filtered = filtered.filter(user => user.role === filterRole);
@@ -119,6 +127,17 @@ const UserManagement = () => {
           <option value="ADMIN">Admin</option>
           <option value="EMPLOYEE">Employee</option>
         </select>
+
+        <div className="filter-toggle">
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={showDeleted}
+              onChange={(e) => setShowDeleted(e.target.checked)}
+            />
+            <span>Show Deleted Users</span>
+          </label>
+        </div>
       </div>
 
       {loading ? (

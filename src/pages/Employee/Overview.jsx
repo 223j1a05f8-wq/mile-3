@@ -35,7 +35,7 @@ const Overview = () => {
   return (
     <div className="overview">
       <h1>Employee Dashboard</h1>
-      <p className="subtitle">Manage stock and view inventory</p>
+      <p className="subtitle">Real-time inventory status and quick metrics</p>
 
       <div className="stats-grid">
         <div className="stat-card">
@@ -81,7 +81,8 @@ const Overview = () => {
 
       {lowStockProducts.length > 0 && (
         <div className="low-stock-section">
-          <h2>Low Stock Alert</h2>
+          <h2>🚨 Urgent: Low Stock Alert (Top 5)</h2>
+          <p className="subtitle">Immediate attention required - Products below minimum threshold</p>
           <div className="table-container">
             <table className="data-table">
               <thead>
