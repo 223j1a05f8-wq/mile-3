@@ -51,7 +51,7 @@ public class PasswordResetService {
     @Transactional
     public void resetPassword(String token, String newPassword) {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-            .orElseThrow(() -> new ResourceNotFoundException("Reset token not found"));
+            .orElseThrow(() -> new ResourceNotFoundException("PasswordResetToken", "token", token));
         
         if (resetToken.isExpired()) {
             passwordResetTokenRepository.delete(resetToken);

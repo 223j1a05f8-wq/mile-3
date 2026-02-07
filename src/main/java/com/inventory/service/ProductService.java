@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     
+    private static final int SKU_PREFIX_LENGTH = 3;
+    
     private final ProductRepository productRepository;
     private final StockTransactionRepository stockTransactionRepository;
     private final AuditLogRepository auditLogRepository;
@@ -317,7 +319,7 @@ public class ProductService {
             throw new IllegalArgumentException("Category cannot be empty");
         }
         
-        String prefix = category.toUpperCase().substring(0, Math.min(3, category.length()));
+        String prefix = category.toUpperCase().substring(0, Math.min(SKU_PREFIX_LENGTH, category.length()));
         
         String lastSku = productRepository.findLastSku(prefix).orElse(null);
         

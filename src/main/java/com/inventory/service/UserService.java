@@ -209,8 +209,10 @@ public class UserService {
     }
     
     private String generateJwtToken(User user) {
+        // WARNING: This is a MOCK implementation and is NOT secure for production use!
         // TODO: Replace with proper JWT implementation using a library like io.jsonwebtoken:jjwt
-        // This is a mock implementation for development purposes only
+        // Current implementation creates predictable tokens that can be easily forged.
+        // For production, use proper JWT signing with a secret key and expiration.
         return "jwt-token-" + user.getId() + "-" + System.currentTimeMillis();
     }
 }

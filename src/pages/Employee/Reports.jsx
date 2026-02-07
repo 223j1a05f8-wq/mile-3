@@ -5,12 +5,18 @@ import { toast } from 'react-toastify';
 import { formatCurrency, formatDate } from '../../utils/helpers';
 
 const Reports = () => {
+  const MINIMUM_REORDER_QUANTITY = 10;
   const [summary, setSummary] = useState(null);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState({
-    startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0]
+  const [dateRange, setDateRange] = useState(() => {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - 1);
+    return {
+      startDate: startDate.toISOString().split('T')[0],
+      endDate: endDate.toISOString().split('T')[0]
+    };
   });
 
   useEffect(() => {
@@ -111,7 +117,7 @@ const Reports = () => {
                     <td className="text-red">{product.quantity}</td>
                     <td>{product.minStockThreshold}</td>
                     <td className="text-red">{product.minStockThreshold - product.quantity}</td>
-                    <td>{Math.max(product.minStockThreshold - product.quantity, 10)}</td>
+                    <td>{Math.max(product.minStockThreshold - product.quantity, MINIMUM_REORDER_QUANTITY)}</td>
                   </tr>
                 ))}
               </tbody>
