@@ -209,6 +209,8 @@ public class UserService {
     }
     
     private String generateJwtToken(User user) {
+        // TODO: Replace with proper JWT implementation using a library like io.jsonwebtoken:jjwt
+        // This is a mock implementation for development purposes only
         return "jwt-token-" + user.getId() + "-" + System.currentTimeMillis();
     }
 }

@@ -322,12 +322,13 @@ public class ProductService {
         String lastSku = productRepository.findLastSku(prefix).orElse(null);
         
         int nextNumber = 1;
-        if (lastSku != null && lastSku.contains("-") && lastSku.length() > prefix.length() + 1) {
+        if (lastSku != null && lastSku.contains("-")) {
             try {
-                int hyphenIndex = lastSku.indexOf('-');
-                String numberPart = lastSku.substring(hyphenIndex + 1);
-                nextNumber = Integer.parseInt(numberPart) + 1;
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                String[] parts = lastSku.split("-");
+                if (parts.length >= 2 && !parts[1].isEmpty()) {
+                    nextNumber = Integer.parseInt(parts[1]) + 1;
+                }
+            } catch (NumberFormatException e) {
                 nextNumber = 1;
             }
         }
