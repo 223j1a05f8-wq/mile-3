@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { FiUsers, FiHome, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
+import { FiUsers, FiHome, FiLogOut, FiMenu, FiX, FiTrash2 } from 'react-icons/fi';
 import { getUser, logout } from '../../utils/helpers';
 import UserManagement from './UserManagement';
 import Overview from './Overview';
+import DeletedUsers from './DeletedUsers';
 import './Dashboard.css';
 
 const MasterAdminDashboard = () => {
@@ -25,6 +26,7 @@ const MasterAdminDashboard = () => {
   const menuItems = [
     { path: '/master-admin', icon: <FiHome />, label: 'Overview', exact: true },
     { path: '/master-admin/users', icon: <FiUsers />, label: 'User Management' },
+    { path: '/master-admin/deleted-users', icon: <FiTrash2 />, label: 'Deleted Users' },
   ];
 
   return (
@@ -76,6 +78,7 @@ const MasterAdminDashboard = () => {
         <Routes>
           <Route path="/" element={<Overview />} />
           <Route path="/users" element={<UserManagement />} />
+          <Route path="/deleted-users" element={<DeletedUsers />} />
         </Routes>
       </main>
     </div>

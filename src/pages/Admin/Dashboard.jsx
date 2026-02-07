@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { FiHome, FiPackage, FiTrendingUp, FiTrendingDown, FiBarChart2, FiUsers, FiLogOut, FiMenu, FiX } from 'react-icons/fi';
+import { FiHome, FiPackage, FiTrendingUp, FiTrendingDown, FiBarChart2, FiUsers, FiLogOut, FiMenu, FiX, FiTrash2 } from 'react-icons/fi';
 import { getUser, logout } from '../../utils/helpers';
 import Overview from './Overview';
 import ProductManagement from './ProductManagement';
 import StockManagement from './StockManagement';
 import Reports from './Reports';
 import Employees from './Employees';
+import DeletedProducts from './DeletedProducts';
 import './Dashboard.css';
 
 const AdminDashboard = () => {
@@ -32,6 +33,7 @@ const AdminDashboard = () => {
     { path: '/admin/stock-out', icon: <FiTrendingDown />, label: 'Stock Out' },
     { path: '/admin/reports', icon: <FiBarChart2 />, label: 'Reports' },
     { path: '/admin/employees', icon: <FiUsers />, label: 'Employees' },
+    { path: '/admin/deleted-products', icon: <FiTrash2 />, label: 'Deleted Products' },
   ];
 
   return (
@@ -87,6 +89,7 @@ const AdminDashboard = () => {
           <Route path="/stock-out" element={<StockManagement type="OUT" />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/employees" element={<Employees />} />
+          <Route path="/deleted-products" element={<DeletedProducts />} />
         </Routes>
       </main>
     </div>

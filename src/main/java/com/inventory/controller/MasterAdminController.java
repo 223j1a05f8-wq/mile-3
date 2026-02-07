@@ -59,4 +59,10 @@ public class MasterAdminController {
         List<UserDTO.UserResponse> users = userService.getUsersByRole(role);
         return ResponseEntity.ok(users);
     }
+    
+    @GetMapping("/users/deleted")
+    public ResponseEntity<List<UserDTO.UserResponse>> getDeletedUsers() {
+        List<UserDTO.UserResponse> users = userService.getDeletedUsers();
+        return ResponseEntity.ok(users);
+    }
 }
