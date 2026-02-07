@@ -50,6 +50,7 @@ export const masterAdminAPI = {
   getUserSummary: () => api.get('/master-admin/users/summary'),
   deleteUser: (userId) => api.delete(`/master-admin/users/${userId}`),
   restoreUser: (userId) => api.post(`/master-admin/users/${userId}/restore`),
+  getDeletedUsers: () => api.get('/master-admin/users/deleted'),
 };
 
 // Admin API
@@ -60,6 +61,7 @@ export const adminAPI = {
   deleteProduct: (productId) => api.delete(`/admin/products/${productId}`),
   restoreProduct: (productId) => api.post(`/admin/products/${productId}/restore`),
   getAllProducts: () => api.get('/admin/products'),
+  getDeletedProducts: () => api.get('/admin/products/deleted'),
   getProductBySku: (sku) => api.get(`/admin/products/${sku}`),
   searchProducts: (query) => api.get(`/admin/products/search?query=${query}`),
   

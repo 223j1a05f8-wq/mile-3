@@ -9,6 +9,7 @@ const Reports = () => {
   const [categoryReport, setCategoryReport] = useState([]);
   const [lowStockProducts, setLowStockProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categorySearch, setCategorySearch] = useState('');
 
   useEffect(() => {
     fetchReports();
@@ -30,6 +31,12 @@ const Reports = () => {
       setLoading(false);
     }
   };
+
+  const filteredCategoryReport = categoryReport.filter((cat) => {
+    if (!categorySearch) return true;
+    const searchLower = categorySearch.toLowerCase();
+    return cat.category.toLowerCase().includes(searchLower);
+  });
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82CA9D'];
 
@@ -102,6 +109,39 @@ const Reports = () => {
 
       <div className="report-table">
         <h2>Category-wise Summary</h2>
+        <div className="search-container" style={{ marginBottom: '20px' }}>
+          <input
+            type="text"
+            placeholder="Search by category name..."
+            value={categorySearch}
+            onChange={(e) => setCategorySearch(e.target.value)}
+            style={{
+              width: '100%',
+              maxWidth: '400px',
+              padding: '10px 15px',
+              fontSize: '14px',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              outline: 'none'
+            }}
+          />
+          {categorySearch && (
+            <button
+              onClick={() => setCategorySearch('')}
+              style={{
+                marginLeft: '10px',
+                padding: '10px 15px',
+                fontSize: '14px',
+                backgroundColor: '#f0f0f0',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                cursor: 'pointer'
+              }}
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <div className="table-container">
           <table className="data-table">
             <thead>
@@ -113,14 +153,22 @@ const Reports = () => {
               </tr>
             </thead>
             <tbody>
-              {categoryReport.map((cat, index) => (
-                <tr key={index}>
-                  <td>{cat.category}</td>
-                  <td>{cat.productCount}</td>
-                  <td>{cat.totalQuantity}</td>
-                  <td>{formatCurrency(cat.totalValue)}</td>
+              {filteredCategoryReport.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="text-center">
+                    {categorySearch ? 'No categories match your search' : 'No categories found'}
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                filteredCategoryReport.map((cat, index) => (
+                  <tr key={index}>
+                    <td>{cat.category}</td>
+                    <td>{cat.productCount}</td>
+                    <td>{cat.totalQuantity}</td>
+                    <td>{formatCurrency(cat.totalValue)}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

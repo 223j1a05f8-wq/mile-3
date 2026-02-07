@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { FiPackage, FiDollarSign, FiAlertTriangle, FiTrendingUp } from 'react-icons/fi';
+import { FiPackage, FiDollarSign, FiAlertTriangle, FiTrendingUp, FiActivity } from 'react-icons/fi';
 import { employeeAPI } from '../../services/api';
 import { toast } from 'react-toastify';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, formatDate } from '../../utils/helpers';
 
 const Overview = () => {
   const [summary, setSummary] = useState(null);
   const [lowStockProducts, setLowStockProducts] = useState([]);
+  const [recentTransactions, setRecentTransactions] = useState([]);
+  const [todayStats, setTodayStats] = useState({ count: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,12 +17,25 @@ const Overview = () => {
 
   const fetchData = async () => {
     try {
-      const [summaryRes, lowStockRes] = await Promise.all([
+      const today = new Date().toISOString().split('T')[0];
+      const [summaryRes, lowStockRes, transactionsRes] = await Promise.all([
         employeeAPI.getInventorySummary(),
-        employeeAPI.getLowStockProducts()
+        employeeAPI.getLowStockProducts(),
+        employeeAPI.getTransactions({})
       ]);
       setSummary(summaryRes.data);
       setLowStockProducts(lowStockRes.data.slice(0, 5));
+      
+      // Get recent transactions
+      const allTransactions = transactionsRes.data;
+      setRecentTransactions(allTransactions.slice(0, 5));
+      
+      // Calculate today's transactions
+      const todayTransactions = allTransactions.filter(t => {
+        const transactionDate = new Date(t.transactionDate).toISOString().split('T')[0];
+        return transactionDate === today;
+      });
+      setTodayStats({ count: todayTransactions.length });
     } catch (error) {
       toast.error('Failed to fetch dashboard data');
     } finally {
@@ -35,7 +50,7 @@ const Overview = () => {
   return (
     <div className="overview">
       <h1>Employee Dashboard</h1>
-      <p className="subtitle">Manage stock and view inventory</p>
+      <p className="subtitle">Quick overview and recent activity</p>
 
       <div className="stats-grid">
         <div className="stat-card">
@@ -78,6 +93,56 @@ const Overview = () => {
           </div>
         </div>
       </div>
+
+      <div className="activity-section" style={{ marginTop: '30px' }}>
+        <div className="stat-card" style={{ padding: '20px', backgroundColor: '#f8f9fa' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <div className="stat-icon" style={{ backgroundColor: '#4CAF50' }}>
+              <FiActivity />
+            </div>
+            <div>
+              <h2 style={{ margin: 0, fontSize: '32px', color: '#4CAF50' }}>{todayStats.count}</h2>
+              <p style={{ margin: 0, color: '#666' }}>Transactions Today</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {recentTransactions.length > 0 && (
+        <div className="recent-activity" style={{ marginTop: '30px' }}>
+          <h2>Recent Activity</h2>
+          <div className="table-container">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Type</th>
+                  <th>Quantity</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {recentTransactions.map((transaction) => (
+                  <tr key={transaction.id}>
+                    <td>{formatDate(transaction.transactionDate)}</td>
+                    <td>{transaction.productName}</td>
+                    <td>
+                      <span className={`type-badge ${transaction.transactionType.toLowerCase().replace('_', '-')}`}>
+                        {transaction.transactionType.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td>{transaction.quantity}</td>
+                    <td>
+                      <span style={{ color: '#4CAF50', fontWeight: 'bold' }}>✓ Completed</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
 
       {lowStockProducts.length > 0 && (
         <div className="low-stock-section">
