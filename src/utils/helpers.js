@@ -83,3 +83,39 @@ export const validateRequired = (value) => {
 export const validateNumber = (value) => {
   return !isNaN(value) && Number(value) >= 0;
 };
+
+// Password validation helpers
+export const isPasswordValid = (password) => {
+  const minLength = password.length >= 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  
+  return minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+};
+
+export const getPasswordRequirements = (password) => {
+  return {
+    minLength: password.length >= 8,
+    hasUpperCase: /[A-Z]/.test(password),
+    hasLowerCase: /[a-z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+    hasSpecialChar: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+  };
+};
+
+export const calculatePasswordStrength = (password) => {
+  if (!password) return '';
+  
+  let strength = 0;
+  if (password.length >= 8) strength++;
+  if (/[a-z]/.test(password)) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+  if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+  
+  if (strength <= 2) return 'weak';
+  if (strength <= 4) return 'medium';
+  return 'strong';
+};
