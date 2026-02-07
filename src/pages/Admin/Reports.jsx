@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FiSearch } from 'react-icons/fi';
 import { adminAPI } from '../../services/api';
 import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/helpers';
@@ -8,11 +9,17 @@ const Reports = () => {
   const [summary, setSummary] = useState(null);
   const [categoryReport, setCategoryReport] = useState([]);
   const [lowStockProducts, setLowStockProducts] = useState([]);
+  const [filteredLowStockProducts, setFilteredLowStockProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchReports();
   }, []);
+
+  useEffect(() => {
+    filterLowStockProducts();
+  }, [lowStockProducts, searchTerm]);
 
   const fetchReports = async () => {
     try {
@@ -28,6 +35,19 @@ const Reports = () => {
       toast.error('Failed to fetch reports');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const filterLowStockProducts = () => {
+    if (searchTerm) {
+      const filtered = lowStockProducts.filter(product =>
+        product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredLowStockProducts(filtered);
+    } else {
+      setFilteredLowStockProducts(lowStockProducts);
     }
   };
 
@@ -129,6 +149,15 @@ const Reports = () => {
       {lowStockProducts.length > 0 && (
         <div className="report-table">
           <h2>Low Stock Products</h2>
+          <div className="search-box" style={{ marginBottom: '1rem' }}>
+            <FiSearch />
+            <input
+              type="text"
+              placeholder="Search by product name, SKU, or category..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <div className="table-container">
             <table className="data-table">
               <thead>
@@ -142,16 +171,24 @@ const Reports = () => {
                 </tr>
               </thead>
               <tbody>
-                {lowStockProducts.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.sku}</td>
-                    <td>{product.productName}</td>
-                    <td>{product.category}</td>
-                    <td className="text-red">{product.quantity}</td>
-                    <td>{product.minStockThreshold}</td>
-                    <td>{product.minStockThreshold - product.quantity}</td>
+                {filteredLowStockProducts.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="text-center">
+                      {searchTerm ? 'No products match your search' : 'No low stock products found'}
+                    </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredLowStockProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.sku}</td>
+                      <td>{product.productName}</td>
+                      <td>{product.category}</td>
+                      <td className="text-red">{product.quantity}</td>
+                      <td>{product.minStockThreshold}</td>
+                      <td>{product.minStockThreshold - product.quantity}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

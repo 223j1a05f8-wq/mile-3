@@ -31,6 +31,7 @@ const ProductManagement = () => {
   const [editMode, setEditMode] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDeleted, setShowDeleted] = useState(false);
   const [formData, setFormData] = useState({
     productName: '',
     category: '',
@@ -46,7 +47,7 @@ const ProductManagement = () => {
 
   useEffect(() => {
     filterProducts();
-  }, [products, searchTerm]);
+  }, [products, searchTerm, showDeleted]);
 
   const fetchProducts = async () => {
     try {
@@ -60,16 +61,24 @@ const ProductManagement = () => {
   };
 
   const filterProducts = () => {
+    let filtered = products;
+
+    // Filter by deleted status
+    if (showDeleted) {
+      filtered = filtered.filter(product => product.isDeleted);
+    } else {
+      filtered = filtered.filter(product => !product.isDeleted);
+    }
+
     if (searchTerm) {
-      const filtered = products.filter(product =>
+      filtered = filtered.filter(product =>
         product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setFilteredProducts(filtered);
-    } else {
-      setFilteredProducts(products);
     }
+
+    setFilteredProducts(filtered);
   };
 
   const handleSubmit = async (e) => {
@@ -163,6 +172,17 @@ const ProductManagement = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+      </div>
+
+      <div className="filter-toggle" style={{ marginBottom: '1rem' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <input
+            type="checkbox"
+            checked={showDeleted}
+            onChange={(e) => setShowDeleted(e.target.checked)}
+          />
+          <span>Show Deleted Products</span>
+        </label>
       </div>
 
       {loading ? (
