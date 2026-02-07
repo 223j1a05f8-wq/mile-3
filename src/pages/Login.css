@@ -53,6 +53,24 @@
   gap: 20px;
 }
 
+.forgot-password-link {
+  text-align: right;
+  margin-top: -12px;
+}
+
+.forgot-password-link a {
+  color: #667eea;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.forgot-password-link a:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
 .login-btn {
   width: 100%;
   padding: 14px;

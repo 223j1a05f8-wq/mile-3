@@ -40,6 +40,9 @@ api.interceptors.response.use(
 // Auth API
 export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
+  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (token, newPassword) => api.post('/auth/reset-password', { token, newPassword }),
+  verifyResetToken: (token) => api.post('/auth/verify-reset-token', { token }),
 };
 
 // Master Admin API
