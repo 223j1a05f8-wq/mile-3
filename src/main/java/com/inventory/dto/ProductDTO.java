@@ -127,6 +127,7 @@ public class ProductDTO {
         private boolean lowStock;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+        private LocalDateTime deletedAt;
         private boolean isDeleted;
         
         
@@ -224,6 +225,14 @@ public class ProductDTO {
         
         public void setUpdatedAt(LocalDateTime updatedAt) {
             this.updatedAt = updatedAt;
+        }
+        
+        public LocalDateTime getDeletedAt() {
+            return deletedAt;
+        }
+        
+        public void setDeletedAt(LocalDateTime deletedAt) {
+            this.deletedAt = deletedAt;
         }
         
         public boolean isDeleted() {

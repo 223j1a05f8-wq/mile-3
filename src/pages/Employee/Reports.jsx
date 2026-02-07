@@ -28,7 +28,7 @@ const Reports = () => {
       ]);
       setSummary(summaryRes.data);
       setLowStockProducts(lowStockRes.data);
-      setTransactions(transactionsRes.data.slice(0, 10)); // Get last 10 transactions
+      setTransactions(transactionsRes.data.slice(0, 10)); // Get first 10 transactions for recent history
     } catch (error) {
       toast.error('Failed to fetch reports');
     } finally {

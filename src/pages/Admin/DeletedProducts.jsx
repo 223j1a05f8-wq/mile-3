@@ -83,9 +83,9 @@ const DeletedProducts = () => {
                   <td>{product.productName}</td>
                   <td>{product.category}</td>
                   <td>{product.supplier}</td>
-                  <td>{formatCurrency(product.unitPrice)}</td>
+                  <td>{product.unitPrice ? formatCurrency(product.unitPrice) : 'N/A'}</td>
                   <td>{product.quantity}</td>
-                  <td>{formatDate(product.updatedAt)}</td>
+                  <td>{product.deletedAt ? formatDate(product.deletedAt) : 'N/A'}</td>
                   <td>
                     <button
                       className="btn btn-success"

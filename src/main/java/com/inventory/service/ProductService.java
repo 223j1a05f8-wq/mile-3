@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     
+    private static final int SKU_PREFIX_LENGTH = 3;
+    
     private final ProductRepository productRepository;
     private final StockTransactionRepository stockTransactionRepository;
     
@@ -214,7 +216,7 @@ public class ProductService {
             throw new IllegalArgumentException("Category cannot be empty");
         }
         
-        String prefix = category.substring(0, Math.min(3, category.length())).toUpperCase();
+        String prefix = category.substring(0, Math.min(SKU_PREFIX_LENGTH, category.length())).toUpperCase();
         String lastSku = productRepository.findLastSku(prefix).orElse(prefix + "000");
         
         try {
@@ -240,6 +242,7 @@ public class ProductService {
         response.setLowStock(product.getQuantity() <= product.getMinStockThreshold());
         response.setCreatedAt(product.getCreatedAt());
         response.setUpdatedAt(product.getUpdatedAt());
+        response.setDeletedAt(product.getDeletedAt());
         response.setDeleted(product.isDeleted());
         return response;
     }

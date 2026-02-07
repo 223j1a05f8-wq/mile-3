@@ -26,7 +26,7 @@ const Overview = () => {
       setSummary(summaryRes.data);
       setLowStockProducts(lowStockRes.data.slice(0, 5));
       
-      // Get recent transactions
+      // Get recent transactions (first 5 for overview display)
       const allTransactions = transactionsRes.data;
       setRecentTransactions(allTransactions.slice(0, 5));
       
