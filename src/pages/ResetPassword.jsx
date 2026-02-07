@@ -39,7 +39,8 @@ const ResetPassword = () => {
     
     setToken(urlToken);
     verifyToken(urlToken);
-  }, [paramToken, searchParams, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramToken, searchParams]);
 
   const verifyToken = async (token) => {
     try {
@@ -241,9 +242,9 @@ const ResetPassword = () => {
                 </div>
                 <span 
                   className="strength-text"
-                  style={{ color: getStrengthColor() }}
+                  style={{ color: getStrengthColor(), textTransform: 'capitalize' }}
                 >
-                  {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)}
+                  {passwordStrength}
                 </span>
               </div>
             )}
