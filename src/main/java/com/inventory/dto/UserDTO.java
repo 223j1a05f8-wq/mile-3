@@ -138,42 +138,60 @@ public class UserDTO {
     }
     
     public static class UserSummary {
-        private long totalAdmins;
-        private long totalEmployees;
-        private long totalActiveUsers;
-        private long totalDeletedUsers;
+        private long totalUsers;
+        private long activeUsers;
+        private long deletedUsers;
+        private long masterAdmins;
+        private long admins;
+        private long employees;
         
         
-        public long getTotalAdmins() {
-            return totalAdmins;
+        public long getTotalUsers() {
+            return totalUsers;
         }
         
-        public void setTotalAdmins(long totalAdmins) {
-            this.totalAdmins = totalAdmins;
+        public void setTotalUsers(long totalUsers) {
+            this.totalUsers = totalUsers;
         }
         
-        public long getTotalEmployees() {
-            return totalEmployees;
+        public long getActiveUsers() {
+            return activeUsers;
         }
         
-        public void setTotalEmployees(long totalEmployees) {
-            this.totalEmployees = totalEmployees;
+        public void setActiveUsers(long activeUsers) {
+            this.activeUsers = activeUsers;
         }
         
-        public long getTotalActiveUsers() {
-            return totalActiveUsers;
+        public long getDeletedUsers() {
+            return deletedUsers;
         }
         
-        public void setTotalActiveUsers(long totalActiveUsers) {
-            this.totalActiveUsers = totalActiveUsers;
+        public void setDeletedUsers(long deletedUsers) {
+            this.deletedUsers = deletedUsers;
         }
         
-        public long getTotalDeletedUsers() {
-            return totalDeletedUsers;
+        public long getMasterAdmins() {
+            return masterAdmins;
         }
         
-        public void setTotalDeletedUsers(long totalDeletedUsers) {
-            this.totalDeletedUsers = totalDeletedUsers;
+        public void setMasterAdmins(long masterAdmins) {
+            this.masterAdmins = masterAdmins;
+        }
+        
+        public long getAdmins() {
+            return admins;
+        }
+        
+        public void setAdmins(long admins) {
+            this.admins = admins;
+        }
+        
+        public long getEmployees() {
+            return employees;
+        }
+        
+        public void setEmployees(long employees) {
+            this.employees = employees;
         }
     }
 }

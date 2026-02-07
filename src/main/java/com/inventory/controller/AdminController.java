@@ -105,6 +105,19 @@ public class AdminController {
         List<UserDTO.UserResponse> employees = userService.getUsersByRole("EMPLOYEE");
         return ResponseEntity.ok((long) employees.size());
     }
+    
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDTO.ProductResponse>> getAllProducts() {
+        List<ProductDTO.ProductResponse> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
+    }
+    
+    @GetMapping("/products/deleted")
+    public ResponseEntity<List<ProductDTO.ProductResponse>> getDeletedProducts() {
+        List<ProductDTO.ProductResponse> products = productService.getDeletedProducts();
+        return ResponseEntity.ok(products);
+    }
+    
     @GetMapping("/products/{sku}")
     public ResponseEntity<ProductDTO.ProductResponse> getProductBySku(@PathVariable String sku) {
         ProductDTO.ProductResponse product = productService.getProductBySku(sku);
@@ -115,11 +128,6 @@ public class AdminController {
     public ResponseEntity<List<ProductDTO.ProductResponse>> searchProducts(
             @RequestParam String query) {
         List<ProductDTO.ProductResponse> products = productService.searchProducts(query);
-        return ResponseEntity.ok(products);
-    }
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductDTO.ProductResponse>> getAllProducts() {
-        List<ProductDTO.ProductResponse> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 }
